@@ -1,10 +1,13 @@
 package com.techacademy.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.entity.User;
@@ -37,6 +40,25 @@ public class UserController {
         service.saveUser(user);
         return "redirect:/user/list";
     }
+    
+    @GetMapping("/update/{id}/")
+    public String getUser(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("user", service.getUser(id));
+        return "user/update";
+    }
+    @PostMapping("/update/{id}/")
+    public String postUser(User user) {
+        service.saveUser(user);
+        return "redirect:/user/list";
+    }
+    
+    @PostMapping(path="list", params="deleteRun")
+    public String deleteRun(@RequestParam(name="idck")Set<Integer>idck, Model model) {
+        service.deleteUser(idck);
+        return "redirect:/user/list";
+    }
+    
+    
     
     
 }
